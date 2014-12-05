@@ -1,0 +1,6 @@
+# emacs keybindings
+'.editor':
+  'shift-enter': 'user:insert-date'
+  'ctrl-x ctrl-s': 'core:save'
+  'escape ;': 'editor:toggle-line-comments'
+  'ctrl-g': 'core:cancel'

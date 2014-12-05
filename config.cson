@@ -1,0 +1,10 @@
+'global':
+  'exception-reporting':
+    'userId': '4d9fa1e1-d2e5-98e7-3b54-f17648406393'
+  'welcome':
+    'showOnStartup': false
+  'metrics':
+    'userId': 'ff0ebfd4b3f4e52f24343b8d39a983fa8c6c55b6'
+  'core': {}
+  'editor':
+    'invisibles': {}
