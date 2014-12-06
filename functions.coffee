@@ -1,8 +1,9 @@
 ## includes
 clipboard = require('clipboard')
 
-# TODO: add tab-dwim, eval-expression
-# DONE: kill-line-or-region, comment-dwim, forward/backward-paragraph
+# TODO: eval-expression
+# DONE: kill-line-or-region, comment-dwim, forward/backward-paragraph,
+# tab-dwim (emacs-flow), expand-current-pane
 
 ## TODO: customize comment-dwim to add different languages!
 
@@ -105,24 +106,40 @@ atom.commands.add 'atom-text-editor',
 atom.commands.add 'atom-text-editor',
   'user:comment-dwim': (event) ->
     editor = @getModel()
-    startPosn = editor.getCursorBufferPosition()
-    editor.moveToEndOfLine()
-    endPosn = editor.getCursorBufferPosition()
-    editor.moveToBeginningOfLine()
-    beginLinePosn = editor.getCursorBufferPosition()
-    textInLine = editor.getTextInBufferRange([beginLinePosn.toArray(), endPosn.toArray()])
-    editor.moveToEndOfLine()
-    if startPosn.isEqual(endPosn) and textInLine.search("^[ \t\n\r]*$") == -1
-      # mutateSelectedText used so that all changes grouped into single undo
-      editor.mutateSelectedText( ->
-        curGrammar = editor.getGrammar()
-        if curGrammar.name == "CoffeeScript"
-          commentChar = "\#"
-        else
-          commentChar = "\#"
-        editor.insertText(" #{commentChar} "))
-    else
+    if editor.getSelectedText().length > 0
       editor.toggleLineCommentsInSelection()
+    else
+      startPosn = editor.getCursorBufferPosition()
+      editor.moveToEndOfLine()
+      endPosn = editor.getCursorBufferPosition()
+      editor.moveToBeginningOfLine()
+      beginLinePosn = editor.getCursorBufferPosition()
+      textInLine = editor.getTextInBufferRange([beginLinePosn.toArray(), endPosn.toArray()])
+      editor.moveToEndOfLine()
+      curGrammar = editor.getGrammar()
+      # add your language here!
+      if curGrammar.name == "CoffeeScript"
+        commentChar = "\#"
+      else
+        commentChar = "\#"
+        # if not comment
+      if startPosn.isEqual(endPosn) and
+      textInLine.search("^[ \t\n\r]*$") == -1 and # empty line
+      textInLine.search("#{commentChar}[ \t\n\r]*$") == -1 and # only comment
+      textInLine.search("^[ \t\n\r]*#{commentChar}") == -1 # line already comm.
+        editor.insertText(" #{commentChar} ")
+        # if ends in margin comment
+        # to be used strictly with point at end of line
+      else if textInLine.search("#{commentChar}[ \t\n\r]*$") != -1
+        editor.moveLeft()
+        editor.moveLeft()
+        editor.moveLeft()
+        # for languages like C++ with multi-char comments
+        if curGrammar.name == ""
+          editor.moveLeft()
+        editor.deleteToEndOfLine()
+      else
+        editor.toggleLineCommentsInSelection()
 
 ## paragraph motion
 atom.commands.add 'atom-text-editor',
@@ -133,4 +150,12 @@ atom.commands.add 'atom-text-editor',
   'user:backward-paragraph': (event) ->
     @getModel().moveToBeginningOfPreviousParagraph()
 
-## tab-dwim
+## expand window pane to all of workspace
+# TODO: fix so uses @ instead of directly accessing globals
+atom.commands.add 'atom-text-editor',
+  'user:expand-current-pane': (event) ->
+    prevView = atom.workspaceView.getActivePaneView()
+    atom.workspaceView.focusNextPaneView()
+    while atom.workspaceView.getActivePaneView() != prevView
+      atom.workspaceView.destroyActivePane()
+      atom.workspaceView.focusNextPaneView()

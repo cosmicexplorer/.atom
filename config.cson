@@ -5,20 +5,13 @@
     'showOnStartup': false
   'metrics':
     'userId': 'ff0ebfd4b3f4e52f24343b8d39a983fa8c6c55b6'
-  'remember-session':
-    'x': 2
-    'y': 49
-    'width': 1916
-    'height': 1029
-    'path': '/home/cosmicexplorer/.atom'
-    'tabs': '/home/cosmicexplorer/.atom/functions.coffee&&/home/cosmicexplorer/.atom/init.coffee&&/home/cosmicexplorer/.atom/keymap.cson'
-    'selectedTab': ''
-    'treeWidth': 199
   'editor':
     'fontSize': 13
     'fontFamily': 'Telegrama'
+    'showIndentGuide': true
   'autocomplete':
     'includeCompletionsFromAllBuffers': true
   'highlight-line':
     'enableSelectionBorder': true
     'hideHighlightOnSelect': true
+  'minimap': {}
