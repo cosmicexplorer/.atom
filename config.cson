@@ -15,4 +15,8 @@
   'highlight-line':
     'enableSelectionBorder': true
     'hideHighlightOnSelect': true
+  'autocomplete-plus':
+    'autoActivationDelay': 1
+    'includeCompletionsFromAllBuffers': true
+  'minimap': {}
   'core': {}

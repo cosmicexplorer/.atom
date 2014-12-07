@@ -2,9 +2,9 @@
 clipboard = require('clipboard')
 fs = require('fs')
 
-# TODO: eval-expression, remember-session
+# TODO: eval-expression
 # DONE: kill-line-or-region, comment-dwim, forward/backward-paragraph,
-# tab-dwim (emacs-flow), expand-current-pane
+# tab-dwim (emacs-flow), expand-current-pane, remember-session
 
 # TODO: customize comment-dwim to add different languages!
 
@@ -18,9 +18,11 @@ atom.commands.add 'atom-text-editor',
 moveToPoint = (editor, point) ->
   if !editor.getCursorBufferPosition().isEqual(point)
     if editor.getCursorBufferPosition().isLessThan(point)
-      editor.moveRight() while editor.getCursorBufferPosition().isLessThan(point)
+      editor.moveRight() while editor.getCursorBufferPosition().
+      isLessThan(point)
     else
-      editor.moveLeft() while editor.getCursorBufferPosition().isGreaterThan(point)
+      editor.moveLeft() while editor.getCursorBufferPosition().
+      isGreaterThan(point)
 
 getFollowingChar = (editor) ->
   curPosn = editor.getCursorBufferPosition()
@@ -32,7 +34,8 @@ getFollowingChar = (editor) ->
     moveToPoint(editor, curPosn)
     editor.moveRight()
     curPlusOne = editor.getCursorBufferPosition()
-    followingChar = editor.getTextInBufferRange([curPosn.toArray(), curPlusOne.toArray()])
+    followingChar = editor.getTextInBufferRange([curPosn.toArray(),
+    curPlusOne.toArray()])
     moveToPoint(editor, curPosn)
     followingChar
 
@@ -53,7 +56,8 @@ killLine = (editor) ->
   editor.moveToEndOfLine()
   endPosn = editor.getCursorBufferPosition()
   moveToPoint(editor, startPosn)
-  textToCopy = editor.getTextInBufferRange([startPosn.toArray(), endPosn.toArray()])
+  textToCopy = editor.getTextInBufferRange([startPosn.toArray(),
+  endPosn.toArray()])
   editor.deleteToEndOfLine()
   textToCopy
 
@@ -129,7 +133,8 @@ atom.commands.add 'atom-text-editor',
       if startPosn.isEqual(endPosn) and
       textInLine.search("^[ \t\n\r]*$") == -1 and # empty line
       textInLine.search("#{commentChar}[ \t\n\r]*$") == -1 and # only comment
-      textInLine.search("^[ \t\n\r]*#{commentChar}") == -1 # line already comm.
+      # line already commented
+      textInLine.search("^[ \t\n\r]*#{commentChar}") == -1
         editor.insertText(" #{commentChar} ")
         # if ends in margin comment
         # to be used strictly with point at end of line
@@ -154,18 +159,22 @@ atom.commands.add 'atom-text-editor',
     @getModel().moveToBeginningOfPreviousParagraph()
 
 ## expand window pane to all of workspace
+# TODO: make this work
 atom.commands.add 'atom-text-editor',
   'user:expand-current-pane': (event) ->
     curView = atom.workspaceView.getActivePaneView()
     atom.workspaceView.focusNextPaneView()
     while atom.workspaceView.getActivePaneView() != curView
       atom.workspaceView.destroyActivePane()
+      atom.workspaceView.focus(curView)
       atom.workspaceView.focusNextPaneView()
 
 ## remember-session
 rememberSessionFile = ".remembered-files"
 getPathOfFileFromEditor = (editor) ->
-  editor.buffer.file.path
+  if !editor.buffer.file
+    null
+  else editor.buffer.file.path
 
 saveBuffersToFile = ->
   buffersToSave = []
@@ -176,7 +185,8 @@ saveBuffersToFile = ->
   buffersToSaveUnique = buffersToSave.filter((item, pos, self) ->
     if !item
       false
-    else self.indexOf(item) == pos)
+    else
+      self.indexOf(item) == pos)
   fs.writeFile(atom.config.configDirPath + "/" + rememberSessionFile,
   buffersToSaveUnique)
 
@@ -200,7 +210,7 @@ atom.commands.add 'atom-text-editor',
     atom.close()
 
 # open buffers from file on startup
-# there's a less hacky way to do this but i don't care
+# there's a less hacky way to do this with emitters but this is more fun
 atom.onDidBeep(->
   openBuffersFromFile())
 
