@@ -1,3 +1,5 @@
+require('./functions.coffee')
+
 # destroy default keybindings
 keybindingsToRemove = [
   'ctrl-x',
@@ -15,8 +17,6 @@ startsWithElementInArray = (string, arrayOfStrings) ->
 
 # TODO: make this 80 chars or less!!!
 atom.keymap.keyBindings = (kbd for kbd in atom.keymap.keyBindings when !startsWithElementInArray(kbd.keystroke, keybindingsToRemove))
-
-require('./functions.coffee')
 
 # cause lol otherwise loading keymaps doesn't work
 atom.keymaps.loadUserKeymap()

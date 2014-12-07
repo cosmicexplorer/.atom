@@ -32,3 +32,4 @@
     'ctrl-x /': 'window:focus-next-pane'
     'ctrl-x p': 'pane:close'
     'ctrl-x e': 'user:expand-current-pane'
+    'ctrl-x ctrl-c ctrl-q': 'user:close-and-save-buffers'

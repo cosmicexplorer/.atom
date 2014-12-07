@@ -9,9 +9,10 @@
     'fontSize': 13
     'fontFamily': 'Telegrama'
     'showIndentGuide': true
+    'invisibles': {}
   'autocomplete':
     'includeCompletionsFromAllBuffers': true
   'highlight-line':
     'enableSelectionBorder': true
     'hideHighlightOnSelect': true
-  'minimap': {}
+  'core': {}

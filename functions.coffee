@@ -1,11 +1,12 @@
 ## includes
 clipboard = require('clipboard')
+fs = require('fs')
 
-# TODO: eval-expression
+# TODO: eval-expression, remember-session
 # DONE: kill-line-or-region, comment-dwim, forward/backward-paragraph,
 # tab-dwim (emacs-flow), expand-current-pane
 
-## TODO: customize comment-dwim to add different languages!
+# TODO: customize comment-dwim to add different languages!
 
 ## utility functions
 # TODO: make this work
@@ -77,7 +78,8 @@ atom.commands.add 'atom-text-editor',
   'user:yank-text': (event) ->
     editor = @getModel()
     initKillRing() if !atom.killRing
-    if atom.killRing.length > 0 and clipboard.readText() == atom.killRing[atom.killRingPointer]
+    if atom.killRing.length > 0 and
+    clipboard.readText() == atom.killRing[atom.killRingPointer]
       editor.insertText(atom.killRing[atom.killRingPointer])
     else editor.insertText(clipboard.readText())
 
@@ -114,7 +116,8 @@ atom.commands.add 'atom-text-editor',
       endPosn = editor.getCursorBufferPosition()
       editor.moveToBeginningOfLine()
       beginLinePosn = editor.getCursorBufferPosition()
-      textInLine = editor.getTextInBufferRange([beginLinePosn.toArray(), endPosn.toArray()])
+      textInLine = editor.getTextInBufferRange([beginLinePosn.toArray(),
+      endPosn.toArray()])
       editor.moveToEndOfLine()
       curGrammar = editor.getGrammar()
       # add your language here!
@@ -151,11 +154,54 @@ atom.commands.add 'atom-text-editor',
     @getModel().moveToBeginningOfPreviousParagraph()
 
 ## expand window pane to all of workspace
-# TODO: fix so uses @ instead of directly accessing globals
 atom.commands.add 'atom-text-editor',
   'user:expand-current-pane': (event) ->
-    prevView = atom.workspaceView.getActivePaneView()
+    curView = atom.workspaceView.getActivePaneView()
     atom.workspaceView.focusNextPaneView()
-    while atom.workspaceView.getActivePaneView() != prevView
+    while atom.workspaceView.getActivePaneView() != curView
       atom.workspaceView.destroyActivePane()
       atom.workspaceView.focusNextPaneView()
+
+## remember-session
+rememberSessionFile = ".remembered-files"
+getPathOfFileFromEditor = (editor) ->
+  editor.buffer.file.path
+
+saveBuffersToFile = ->
+  buffersToSave = []
+  buffersToSave.push(getPathOfFileFromEditor(editor)) for editor in \
+  atom.workspace.getEditors()
+  # because more than one buffer can visit a file, and some buffers
+  # don't visit files
+  buffersToSaveUnique = buffersToSave.filter((item, pos, self) ->
+    if !item
+      false
+    else self.indexOf(item) == pos)
+  fs.writeFile(atom.config.configDirPath + "/" + rememberSessionFile,
+  buffersToSaveUnique)
+
+openBuffersFromFile = ->
+  fs.readFile(atom.config.configDirPath + "/" + rememberSessionFile,
+  (err, file) ->
+    lines = file.toString().split(",")
+    atom.open({pathsToOpen: lines, newWindow: false}))
+
+atom.commands.add 'atom-text-editor',
+  'user:save-buffers-to-file': (event) ->
+    saveBuffersToFile()
+
+atom.commands.add 'atom-text-editor',
+  'user:open-buffers-from-file': (event) ->
+    openBuffersFromFile()
+
+atom.commands.add 'atom-text-editor',
+  'user:close-and-save-buffers': (event) ->
+    saveBuffersToFile()
+    atom.close()
+
+# open buffers from file on startup
+# there's a less hacky way to do this but i don't care
+atom.onDidBeep(->
+  openBuffersFromFile())
+
+atom.beep() # TODO: make this actually beep
