@@ -10,7 +10,10 @@ keybindingsToRemove = [
   'ctrl-alt',
   'ctrl-up',
   'ctrl-down',
-  'ctrl-b'
+  'ctrl-b',
+  'ctrl-n',
+  'ctrl-t',
+  'alt-p'
   ]
 
 startsWithElementInArray = (string, arrayOfStrings) ->

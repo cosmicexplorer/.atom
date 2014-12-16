@@ -112,7 +112,10 @@ atom.commands.add 'atom-text-editor',
 atom.commands.add 'atom-text-editor',
   'user:comment-dwim': (event) ->
     editor = @getModel()
-    if editor.getSelectedText().length > 0
+    curGrammar = editor.getGrammar()
+    if editor.getSelectedText().length > 0 or
+    curGrammar.name == "HTML" or
+    curGrammar.name == "CSS"
       editor.toggleLineCommentsInSelection()
     else
       startPosn = editor.getCursorBufferPosition()
@@ -123,10 +126,12 @@ atom.commands.add 'atom-text-editor',
       textInLine = editor.getTextInBufferRange([beginLinePosn.toArray(),
       endPosn.toArray()])
       editor.moveToEndOfLine()
-      curGrammar = editor.getGrammar()
+      # MOD THIS
       # add your language here!
       if curGrammar.name == "CoffeeScript"
         commentChar = "\#"
+      else if curGrammar.name == "JavaScript"
+        commentChar = "//"
       else
         commentChar = "\#"
         # if not comment
@@ -142,8 +147,9 @@ atom.commands.add 'atom-text-editor',
         editor.moveLeft()
         editor.moveLeft()
         editor.moveLeft()
+        # MOD THIS
         # for languages like C++ with multi-char comments
-        if curGrammar.name == ""
+        if curGrammar.name == "JavaScript"
           editor.moveLeft()
         editor.deleteToEndOfLine()
       else
@@ -169,49 +175,53 @@ atom.commands.add 'atom-text-editor',
       atom.workspaceView.focus(curView)
       atom.workspaceView.focusNextPaneView()
 
-## remember-session
-rememberSessionFile = ".remembered-files"
-getPathOfFileFromEditor = (editor) ->
-  if !editor.buffer.file
-    null
-  else editor.buffer.file.path
-
-saveBuffersToFile = ->
-  buffersToSave = []
-  buffersToSave.push(getPathOfFileFromEditor(editor)) for editor in \
-  atom.workspace.getEditors()
-  # because more than one buffer can visit a file, and some buffers
-  # don't visit files
-  buffersToSaveUnique = buffersToSave.filter((item, pos, self) ->
-    if !item
-      false
-    else
-      self.indexOf(item) == pos)
-  fs.writeFile(atom.config.configDirPath + "/" + rememberSessionFile,
-  buffersToSaveUnique)
-
-openBuffersFromFile = ->
-  fs.readFile(atom.config.configDirPath + "/" + rememberSessionFile,
-  (err, file) ->
-    lines = file.toString().split(",")
-    atom.open({pathsToOpen: lines, newWindow: false}))
+# ## remember-session
+# rememberSessionFile = ".remembered-files"
+# getPathOfFileFromEditor = (editor) ->
+#   if !editor.buffer.file
+#     null
+#   else editor.buffer.file.path
+#
+# saveBuffersToFile = ->
+#   buffersToSave = []
+#   buffersToSave.push(getPathOfFileFromEditor(editor)) for editor in \
+#   atom.workspace.getEditors()
+#   # because more than one buffer can visit a file, and some buffers
+#   # don't visit files
+#   buffersToSaveUnique = buffersToSave.filter((item, pos, self) ->
+#     if !item
+#       false
+#     else
+#       self.indexOf(item) == pos)
+#   fs.writeFile(atom.config.configDirPath + "/" + rememberSessionFile,
+#   buffersToSaveUnique)
+#
+# openBuffersFromFile = ->
+#   fs.readFile(atom.config.configDirPath + "/" + rememberSessionFile,
+#   (err, file) ->
+#     lines = file.toString().split(",")
+#     atom.open({pathsToOpen: lines, newWindow: false}))
+#
+# atom.commands.add 'atom-text-editor',
+#   'user:save-buffers-to-file': (event) ->
+#     saveBuffersToFile()
+#
+# atom.commands.add 'atom-text-editor',
+#   'user:open-buffers-from-file': (event) ->
+#     openBuffersFromFile()
+#
+# atom.commands.add 'atom-text-editor',
+#   'user:close-and-save-buffers': (event) ->
+#     saveBuffersToFile()
+#     atom.close()
+#
+# # open buffers from file on startup
+# # there's a less hacky way to do this with emitters but this is more fun
+# atom.onDidBeep(->
+#   openBuffersFromFile())
 
 atom.commands.add 'atom-text-editor',
-  'user:save-buffers-to-file': (event) ->
-    saveBuffersToFile()
-
-atom.commands.add 'atom-text-editor',
-  'user:open-buffers-from-file': (event) ->
-    openBuffersFromFile()
-
-atom.commands.add 'atom-text-editor',
-  'user:close-and-save-buffers': (event) ->
-    saveBuffersToFile()
+  'user:close': (event) ->
     atom.close()
-
-# open buffers from file on startup
-# there's a less hacky way to do this with emitters but this is more fun
-atom.onDidBeep(->
-  openBuffersFromFile())
 
 atom.beep() # TODO: make this actually beep

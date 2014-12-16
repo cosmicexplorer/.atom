@@ -6,10 +6,9 @@
   'metrics':
     'userId': 'ff0ebfd4b3f4e52f24343b8d39a983fa8c6c55b6'
   'editor':
-    'fontSize': 13
     'fontFamily': 'Telegrama'
     'showIndentGuide': true
-    'invisibles': {}
+    'fontSize': 13
   'autocomplete':
     'includeCompletionsFromAllBuffers': true
   'highlight-line':
@@ -18,5 +17,24 @@
   'autocomplete-plus':
     'autoActivationDelay': 1
     'includeCompletionsFromAllBuffers': true
-  'minimap': {}
-  'core': {}
+  'remember-session':
+    'x': 0
+    'y': 48
+    'width': 1920
+    'height': 1032
+    'treeWidth': 200
+    'path': ''
+    'tabs': ''
+    'selectedTab': ''
+  'save-session':
+    'dataSaveFolder': '/home/cosmicexplorer/.atom/packages/save-session/projects'
+    'windowX': 0
+    'windowY': 48
+    'windowWidth': 1920
+    'windowHeight': 1032
+    'project': '/home/cosmicexplorer/.atom'
+  'core':
+    'disabledPackages': [
+      'shadow'
+    ]
+  'autoclose-html': {}
