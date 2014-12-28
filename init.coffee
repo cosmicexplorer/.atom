@@ -2,18 +2,18 @@ require('./functions.coffee')
 
 # destroy default keybindings
 keybindingsToRemove = [
-  'ctrl-x',
+  'ctrl-x'
   'ctrl-f'
-  'ctrl-y',
-  'ctrl-k',
-  'ctrl-g',
-  'ctrl-alt',
-  'ctrl-up',
-  'ctrl-down',
-  'ctrl-b',
-  'ctrl-n',
-  'ctrl-t',
-  'alt-p'
+  'ctrl-y'
+  'ctrl-k'
+  'ctrl-g'
+  'ctrl-alt'
+  'ctrl-up'
+  'ctrl-down'
+  'ctrl-b'
+  'ctrl-n'
+  'ctrl-t'
+  'alt-p' # TODO: this doesn't work
   ]
 
 startsWithElementInArray = (string, arrayOfStrings) ->
