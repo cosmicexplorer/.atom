@@ -1,38 +1,23 @@
-'global':
-  'exception-reporting':
-    'userId': '4d9fa1e1-d2e5-98e7-3b54-f17648406393'
+'*':
   'welcome':
     'showOnStartup': false
-  'metrics':
-    'userId': 'ff0ebfd4b3f4e52f24343b8d39a983fa8c6c55b6'
   'editor':
     'fontFamily': 'Telegrama'
     'showIndentGuide': true
-    'fontSize': 13
+    'invisibles': {}
   'autocomplete':
     'includeCompletionsFromAllBuffers': true
   'highlight-line':
-    'enableSelectionBorder': true
     'hideHighlightOnSelect': true
+    'enableSelectionBorder': true
   'autocomplete-plus':
     'autoActivationDelay': 1
     'includeCompletionsFromAllBuffers': true
   'remember-session':
     'x': 0
-    'y': 26
+    'y': 48
     'width': 1920
     'height': 1032
-    'path': '/home/cosmicexplorer/projects/active/red-october'
-    'tabs': '/home/cosmicexplorer/projects/active/red-october/lib/plasmid-display-view.coffee&&/home/cosmicexplorer/projects/active/red-october/lib/main.coffee&&/home/cosmicexplorer/projects/active/red-october/lib/draw-utilities.coffee&&/home/cosmicexplorer/projects/active/red-october/lib/plasmid-display.coffee&&/home/cosmicexplorer/projects/active/red-october/lib/genbank-editor-view.coffee'
-    'selectedTab': ''
-    'treeWidth': 200
-  'save-session':
-    'dataSaveFolder': '/home/cosmicexplorer/.atom/packages/save-session/projects'
-    'windowX': 0
-    'windowY': 48
-    'windowWidth': 1920
-    'windowHeight': 1032
-    'project': '/home/cosmicexplorer/.atom'
   'core':
     'disabledPackages': [
       'shadow'
