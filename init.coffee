@@ -17,12 +17,11 @@ keybindingsToRemove = [
   ]
 
 startsWithElementInArray = (string, arrayOfStrings) ->
-  (strInArr for strInArr in arrayOfStrings when string.
-  lastIndexOf(strInArr,0) == 0).length > 0
+  (strInArr for strInArr in arrayOfStrings when string.lastIndexOf(strInArr,0) == 0).length > 0
 
-atom.keymap.keyBindings = (kbd for kbd in atom.keymap.
-keyBindings when !startsWithElementInArray(kbd.keystroke,
-keybindingsToRemove))
+atom.keymaps.keyBindings = (
+  kbd for kbd in atom.keymaps.keyBindings when !startsWithElementInArray(
+    kbd.keystrokes, keybindingsToRemove))
 
 # cause lol otherwise loading keymaps doesn't work
 atom.keymaps.loadUserKeymap()

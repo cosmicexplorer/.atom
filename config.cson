@@ -1,25 +1,27 @@
-'*':
-  'welcome':
-    'showOnStartup': false
-  'editor':
-    'fontFamily': 'Telegrama'
-    'showIndentGuide': true
-    'invisibles': {}
-  'autocomplete':
-    'includeCompletionsFromAllBuffers': true
-  'highlight-line':
-    'hideHighlightOnSelect': true
-    'enableSelectionBorder': true
-  'autocomplete-plus':
-    'autoActivationDelay': 1
-    'includeCompletionsFromAllBuffers': true
-  'remember-session':
-    'x': 0
-    'y': 48
-    'width': 1920
-    'height': 1032
-  'core':
-    'disabledPackages': [
-      'shadow'
+"*":
+  welcome:
+    showOnStartup: false
+  editor:
+    fontFamily: "Telegrama"
+    showIndentGuide: true
+    invisibles: {}
+  autocomplete:
+    includeCompletionsFromAllBuffers: true
+  "highlight-line":
+    hideHighlightOnSelect: true
+    enableSelectionBorder: true
+  "autocomplete-plus":
+    autoActivationDelay: 1
+    includeCompletionsFromAllBuffers: true
+  "remember-session":
+    x: 0
+    y: 48
+    width: 1920
+    height: 1032
+  core:
+    disabledPackages: [
+      "shadow"
     ]
-  'autoclose-html': {}
+  "autoclose-html": {}
+  "exception-reporting":
+    userId: "4655b24d-be6f-5ebf-2476-08c5acaec92d"
