@@ -7,7 +7,6 @@ keybindingsToRemove = [
   'ctrl-y'
   'ctrl-k'
   'ctrl-g'
-  'ctrl-alt'
   'ctrl-up'
   'ctrl-down'
   'ctrl-b'
@@ -20,7 +19,7 @@ startsWithElementInArray = (string, arrayOfStrings) ->
   (strInArr for strInArr in arrayOfStrings when string.lastIndexOf(strInArr,0) == 0).length > 0
 
 atom.keymaps.keyBindings = (
-  kbd for kbd in atom.keymaps.keyBindings when !startsWithElementInArray(
+  kbd for kbd in atom.keymaps.keyBindings if not startsWithElementInArray(
     kbd.keystrokes, keybindingsToRemove))
 
 # cause lol otherwise loading keymaps doesn't work

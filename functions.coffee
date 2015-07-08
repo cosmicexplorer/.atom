@@ -69,6 +69,7 @@ killRegion = (editor) ->
 atom.commands.add 'atom-text-editor',
   'user:kill-line-or-region': (event) ->
     editor = @getModel()
+    console.log editor
     initKillRing() if !atom.killRing
     if editor.getSelectedText().length == 0
       textToCopy = killLine(editor)

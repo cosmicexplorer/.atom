@@ -1,5 +1,5 @@
 # emacs keybindings
-  '.editor':
+  'body':
     'alt-n': 'find-and-replace:select-next'
     'ctrl-x ctrl-a': 'find-and-replace:select-all'
     'escape ;': 'user:comment-dwim'
@@ -11,7 +11,6 @@
     'ctrl-up': 'user:backward-paragraph'
     'ctrl-down': 'user:forward-paragraph'
     'alt-g g': 'go-to-line:toggle'
-  'body':
     'ctrl-x e': 'user:expand-current-pane'
     'alt-x': 'command-palette:toggle'
     'ctrl-alt-z': 'core:redo'
@@ -34,21 +33,20 @@
     'ctrl-x ctrl-c ctrl-q': 'user:close'
     'ctrl-tab': 'pane:show-next-item'
     'ctrl-shift-tab': 'pane:show-previous-item'
-    # TODO: make this work
-    'escape shift-:': 'window:toggle-dev-tools'
-  '.atom-text-editor':
-    'ctrl-g': 'editor:consolidate-selections'
-  '.tool-panel.panel-left':
-    'ctrl-g': 'tool-panel-unfocus'
-  '.tool-panel.panel-right':
-    'ctrl-g': 'tool-panel-unfocus'
-  '.platform-linux': # stick these on platform-win32 sometime too
     'alt-x': 'command-palette:toggle'
     'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
     'ctrl-s': 'find-and-replace:show'
     'ctrl-x o': 'find-and-replace:show'
     'ctrl-x f': 'project-find:show'
     'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
+    # TODO: make this work
+    'escape shift-:': 'window:toggle-dev-tools'
+  '.atom-text-editor':
+    'ctrl-g': 'editor:consolidate-selections'
+  '.atom-panel.left':
+    'ctrl-g': 'tool-panel-unfocus'
+  '.atom-panel-right':
+    'ctrl-g': 'tool-panel-unfocus'
   '.command-palette':
     'alt-x': 'command-palette:toggle'
   '.minimap-quick-settings':
